@@ -63,7 +63,7 @@ Now we are ready to add the keys and images URL to complete the request. The nex
 
 ### How to make request with Detect endpoints
 
-First, Make sure the request URL placeholder contains the verify URL below.
+First, make sure the request URL placeholder contains the verify URL below.
 
 ```
 http://159.89.235.8:3000/detect
