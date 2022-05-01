@@ -4,6 +4,7 @@ Hi there! Thank you for stopping by this repository. In this documentation, we w
 
 **Face - Detect:**
 Detect human faces in an image, return face rectangles, and optionally with faceIds, landmarks, and attributes.
+
 **Face - Verify:**
 Verify whether two faces belong to a same person or whether one face belongs to a person.
 
