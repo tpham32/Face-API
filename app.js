@@ -1,3 +1,4 @@
+require("dotenv").config();
 const msRest = require("@azure/ms-rest-js");
 const Face = require("@azure/cognitiveservices-face");
 //const uuid = require("uuid/v4");
@@ -10,8 +11,10 @@ const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
 const { version } = require("os");
 const port = 3000;
+const subscriptionKey = process.env.API_KEY;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 const options ={
     swaggerDefinition: {
         info:{
@@ -24,15 +27,14 @@ const options ={
     },
     apis: ['./app.js']
 };
-const specs = swaggerJsdoc(options);
 
+const specs = swaggerJsdoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use(cors());
 
 
-const key = '8087d7bb846b4a5ebaf8b986141f6183';
+const key = subscriptionKey;
 const endpoint ='https://faceapi6177.cognitiveservices.azure.com';
-
 
 
 /**
@@ -43,13 +45,14 @@ const endpoint ='https://faceapi6177.cognitiveservices.azure.com';
  *      produces:
  *          - application/jason
  *      parameters:
- *          - name: imageUrl
- *            in: body
+ *          - in: body
+ *            name: imageUrl
  *            required: true
  *      responses:
  *          200:
  *              description: Provided image has been scanned successfully
- *          
+ *          400:
+ *              description: Error! Bad request
  */
 app.post('/detect', (req, res, next)=>{
     const imageUrl = req.body.imageUrl;
@@ -87,75 +90,72 @@ app.post('/detect', (req, res, next)=>{
  *      produces:
  *          - application/jason
  *      parameters:
- *          - name: imageUrl
- *            in: body
+ *          - in: body
+ *            name: imageUrl
  *            required: true
  *      responses:
  *          200:
  *              description: Provided image has been scanned successfully
- *          
+ *          400:
+ *              description: Error! Bad request
  */
 //
-
 app.post('/verify', (req, res, next)=>{
     const pic1 = req.body.pic1;
     const pic2 = req.body.pic2;
-    const x1 ="";
-    axios.all([
-    x1 =   axios({
-            method: 'post',
-            url: endpoint+'/face/v1.0/detect',
-            params:{
-                detectionModel: 'detection_03',
-                returnFaceId: true
-            }, 
-            data: {
-                url: pic1
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': key
-            }
-        }),
+    axios({
+        method: 'post',
+        url: endpoint+'/face/v1.0/detect',
+        params : {
+            detectionModel: 'detection_03',
+            returnFaceId: true
+        },
+        data: {
+            url: pic1,
+        },
+        headers: { 'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': key }
+    })
+    .then(function (response) {
+        const face1 = response.data[0].faceId;
         axios({
             method: 'post',
             url: endpoint+'/face/v1.0/detect',
-            params:{
+            params : {
                 detectionModel: 'detection_03',
                 returnFaceId: true
-            }, 
-            data: {
-                url: pic2
             },
-            headers: {
-                'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': key
-            }
+            data: {
+                url: pic2,
+            },
+            headers: { 'Content-Type': 'application/json',
+            'Ocp-Apim-Subscription-Key': key }
         })
-        /*axios({
-            method: 'post',
-            url: endpoint+'/face/v1.0/verify',
-            params:{
-                detectionModel: 'detection_03',
-                returnFaceId: true
-            }, 
-            data: {
-                faceId1: 
-                faceId2: 
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': key
-            }
-        })   */
-    ])
-    .then (axios.spread((data1, data2) =>{
-        res.json(response.data1);
-        
-    }).catch(function (error){
-        res.json({error})
-    });
-
+        .then(function (response) {
+            const face2 = response.data[0].faceId;
+            axios({
+                method: 'post',
+                url: endpoint+'/face/v1.0/verify',
+                data: {
+                    faceId1: face1,
+                    faceId2: face2
+                },
+                headers: { 'Content-Type': 'application/json',
+                'Ocp-Apim-Subscription-Key': key }
+            })
+            .then(function (response) {
+                res.json(response.data);
+                
+            }).catch(function (error) {
+                console.log(error);
+            });
+            
+                }).catch(function (error) {
+                        console.log(error);
+                });
+                        }).catch(function (error) {
+                                console.log(error);
+                        });
 });
 
 
@@ -165,4 +165,4 @@ app.post('/verify', (req, res, next)=>{
 
 app.listen(port, () => {
     console.log(`API served at http://localhost:${port}`);
-})
+});
