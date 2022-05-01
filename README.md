@@ -1,4 +1,4 @@
-# Microsoft Azure Face API 
+# Microsoft Azure Face API - Documentation
 
 Hi there! Thank you for stopping by this repository. In this documentation, we will go over on how to test the features below.
 
