@@ -55,6 +55,8 @@ verify
 As result, we add the endpoints to the URL.
 ```
 http://159.89.235.8:3000/detect
+```
+```
 http://159.89.235.8:3000/verify
 ```
 Now we are ready to add the keys and images URL to complete the request. The next 2 sections will go more details about the body params
@@ -65,6 +67,7 @@ Make sure "POST" request is selected
 Go to "Body" section, then pick "x-www-form-urlencoded". 
 Add the name below to "KEY" for detect enpoint. Make sure to copy the exact "imageUrl" or else it will not works.
 
+Key 1:
 ```
 imageUrl
 ```
@@ -72,6 +75,7 @@ imageUrl
 Then add the copied image URL obtained earlier from the web to "VALUE".
 For example, the URL below is a picture of a couple. The result should returns two faceId.
 
+Value 1:
 ```
 https://www.pinkvilla.com/files/styles/amp_metadata_content_image/public/rahul-disha_1.jpg
 ```
@@ -104,18 +108,23 @@ The same process will apply just like the detect endpoint, but in this endpoint,
 
 Go to "Body" section, then pick "x-www-form-urlencoded". Add pic1 for the first key and pic2 for the second key. 
 
+Key 1:
 ```
 pic1
 ```
+Key 2:
 ```
 pic2
 ```
 
 Now add the two image URLs for the two keys above in the "VALUE" sections. Example, below are two different images of the same person.
 
+Value 1:
 ```
 https://media.self.com/photos/618eb45bc4880cebf08c1a5b/3:2/w_2688,h_1792,c_limit/1236337133
 ```
+Value 1:
+
 ```
 https://media.vanityfair.com/photos/5b46274a6520f70b78e5cfe5/1:1/w_960,h_960,c_limit/The-Rock-2020-Potential-Run.jpg
 ```
