@@ -37,7 +37,7 @@ If Postman is not installed, please click on the link below and add it your devi
 https://www.postman.com/downloads/
 ```
 
-### Add URL enpoints
+### Add URL endpoints
 
 Once Postman is installed, open the application and proceed to add the URL below into the placeholder "Enter request URL"
 
