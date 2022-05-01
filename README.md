@@ -63,6 +63,12 @@ Now we are ready to add the keys and images URL to complete the request. The nex
 
 ### How to make request with Detect endpoints
 
+First, Make sure the request URL placeholder contains the verify URL below.
+
+```
+http://159.89.235.8:3000/detect
+```
+
 Make sure "POST" request is selected
 Go to "Body" section, then pick "x-www-form-urlencoded". 
 Add the name below to "KEY" for detect enpoint. Make sure to copy the exact "imageUrl" or else it will not works.
@@ -103,6 +109,12 @@ Once pressed send, the result will displayed as below.
 ```
 
 ### How to make request with Verify endpoints
+
+Make sure the request URL placeholder contains the verify URL below.
+
+```
+http://159.89.235.8:3000/verify
+```
 
 The same process will apply just like the detect endpoint, but in this endpoint, there are 2 images required which needs 2 different keys and URL for the images.
 
